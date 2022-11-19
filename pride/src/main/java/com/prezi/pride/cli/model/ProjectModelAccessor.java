@@ -12,6 +12,7 @@ import org.gradle.tooling.ProjectConnection;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class ProjectModelAccessor {
 	private final File modelInitFile;
@@ -25,7 +26,7 @@ public class ProjectModelAccessor {
 	}
 
 	public static ProjectModelAccessor create(GradleConnectorManager gradleConnectorManager, boolean verbose) throws IOException {
-		File modelInitFile = File.createTempFile("model-init-", ".gradle");
+		File modelInitFile = Files.createTempFile("model-init-", ".gradle").toFile();
 		Resources.asByteSource(Resources.getResource("model-init.gradle")).copyTo(Files.asByteSink(modelInitFile));
 		return new ProjectModelAccessor(gradleConnectorManager, verbose, modelInitFile);
 	}
